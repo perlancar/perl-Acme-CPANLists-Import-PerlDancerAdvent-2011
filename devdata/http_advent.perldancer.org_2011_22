@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<title> Generating CAPTCHAs using Dancer::Plugin::Captcha::SecurityImage | PerlDancer Advent Calendar</title>
+<link rel="stylesheet" href="/css/style.css" />
+<link rel="alternate" type="application/rss+xml" title="All Articles " href="/feed/2011" /> 
+
+
+<!-- Grab Google CDN's jQuery. fall back to local if necessary -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">/* <![CDATA[ */
+    !window.jQuery && document.write('<script src="/javascripts/jquery.js"><\/script>')
+/* ]]> */</script>
+
+<!-- Prettyfy -->
+<link href="/css/prettify.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/javascripts/prettify.js"></script>
+
+</head>
+<body onload="prettyPrint()">
+<div id="page">
+
+<div id="sidebar">
+<a href="/" class="homelink">Dancer Advent Calendar</a><br />
+
+<p>
+The PerlDancer Advent Calendar is a community-driven project that aims 
+to showcase the Dancer Perl web framework.
+</p>
+
+<p>
+Each day of December until Christmas, one article about Dancer. Stay tuned for new moves!
+</p>
+
+<ul id="sidebar-items">
+<li>
+    <h3>About Dancer</h3>
+    <ul class="links">
+        <li><a href="http://www.perldancer.org/">Dancer homepage</a></li>
+        <li><a href="http://twitter.com/PerlDancer">Official Twitter</a></li>
+        <li><a href="http://github.com/PerlDancer/Dancer">Dancer on GitHub</a></li>
+        <li><a href="http://github.com/PerlDancer/Dancer2">Dancer 2 on GitHub</a></li>
+        <li><a class="feed" href="/feed/2011">RSS</a></li>
+    </ul>
+</li>
+</ul>
+</div>
+
+
+<div id="content">
+<div class="pod-document"><h1><a name="generating_captchas_using_dancer__plugin__captcha__securityimage"></a>Generating CAPTCHAs using Dancer::Plugin::Captcha::SecurityImage</h1>
+
+<p>Many sites uses a <a href="http://en.wikipedia.org/wiki/CAPTCHA">CAPTCHA</a> to prevent 
+bots using comments for spam. If you want to add this feature to your site, 
+you can do it using Dancer::Plugin::SecurityImage.</p>
+<p>For a CAPTCHA test to work, you need to generate an image with slightly
+obsfucated text which computer OCR (Optical Character Recognition) software will
+not be able to read, and store the text contained in the image in the user's
+session.  Once they submit the form, you compare the text they entered with the
+text stored in the session, and you know if they entered the right text or not.</p>
+<p><a href="https://metacpan.org/module/Dancer::Plugin::Captcha::SecurityImage">Dancer::Plugin::Captcha::SecurityImage</a> makes this easy.</p>
+<h1><a name="description_of_common_functions"></a>Description of common functions</h1>
+
+<p><code>create_captcha</code></p>
+<p>This function expects argument which will be passed to the <a href="https://metacpan.org/module/GD::SecurityImage">GD::SecurityImage</a> 
+constructor and methods.</p>
+<p><code>validate_captcha</code></p>
+<p>This function expects the value user entered in the form. It will check it 
+against the code stored in the Dancer session and return <code>true</code> if they match.</p>
+<p><code>clear_captcha</code></p>
+<p>This function will remove the CAPTCHA value from your session data so that it 
+won't match again.</p>
+<h1><a name="simple_example"></a>Simple example</h1>
+
+<pre class="prettyprint">use Dancer;
+use Dancer::Plugin::Captcha::SecurityImage;
+    
+session 'simple';
+    
+get '/captcha' =&gt; sub {
+    create_captcha {
+        new =&gt; {
+            width    =&gt; 80,
+            height   =&gt; 30,
+            lines    =&gt; 10,
+            gd_font  =&gt; 'giant',
+        },
+        create    =&gt; [ normal =&gt; 'rect' ],
+        particle  =&gt; [ 100 ],
+        out       =&gt; { force =&gt; 'jpeg' }, #format of picture ('jpeg', 'png')
+        random    =&gt; $random_string = rand_pass(6), #random string for CAPTCHA
+    };
+};
+    
+post '/verify' =&gt; sub { #captcha validation
+    my $p = request-&gt;params;
+        
+    if (!validate_captcha $p-&gt;{captcha}) {
+        return "wrong code";
+    }
+    clear_captcha;
+};
+
+sub rand_pass {
+    my $len = shift;
+    my $pass;
+    for (1..$len) {$pass .= chr(rand(94)+33)}
+    return $pass;
+}</pre>
+
+<h1><a name="author"></a>AUTHOR</h1>
+
+<p>This article was written by Andrew Inishev, Google Code-in student, 
+mentored by David Precious.</p>
+</div>
+
+ <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'danceradvent'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+</div>
+
+
+
+<div id="footer">
+Powered by the  
+<a href="http://perldancer.org/" title="Perl Dancer - Perl web framework">
+Dancer Perl web framework</a>
+</div>
+</div>
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-25174467-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<title> Thanking the contributors | PerlDancer Advent Calendar</title>
+<link rel="stylesheet" href="/css/style.css" />
+<link rel="alternate" type="application/rss+xml" title="All Articles " href="/feed/2011" /> 
+
+
+<!-- Grab Google CDN's jQuery. fall back to local if necessary -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">/* <![CDATA[ */
+    !window.jQuery && document.write('<script src="/javascripts/jquery.js"><\/script>')
+/* ]]> */</script>
+
+<!-- Prettyfy -->
+<link href="/css/prettify.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/javascripts/prettify.js"></script>
+
+</head>
+<body onload="prettyPrint()">
+<div id="page">
+
+<div id="sidebar">
+<a href="/" class="homelink">Dancer Advent Calendar</a><br />
+
+<p>
+The PerlDancer Advent Calendar is a community-driven project that aims 
+to showcase the Dancer Perl web framework.
+</p>
+
+<p>
+Each day of December until Christmas, one article about Dancer. Stay tuned for new moves!
+</p>
+
+<ul id="sidebar-items">
+<li>
+    <h3>About Dancer</h3>
+    <ul class="links">
+        <li><a href="http://www.perldancer.org/">Dancer homepage</a></li>
+        <li><a href="http://twitter.com/PerlDancer">Official Twitter</a></li>
+        <li><a href="http://github.com/PerlDancer/Dancer">Dancer on GitHub</a></li>
+        <li><a href="http://github.com/PerlDancer/Dancer2">Dancer 2 on GitHub</a></li>
+        <li><a class="feed" href="/feed/2011">RSS</a></li>
+    </ul>
+</li>
+</ul>
+</div>
+
+
+<div id="content">
+<div class="pod-document"><h1><a name="thanking_the_contributors"></a>Thanking the contributors</h1>
+
+<p>Dancer's success and growth so far would not have been possible without
+contributions from a growing community of helpful contributors.</p>
+<p>GitHub reports a current total of 70 individual contributors, but this of course
+does not count people who reported bugs / requested features / offered feedback.</p>
+<p>This article has been written to offer thanks to the developers who have
+contributed directly through GitHub, a brief summary of which is below, and to
+everyone who has contributed in any way, whether through helping out in the
+Dancer IRC channel, answering questions on the mailing list, presenting Dancer
+at various Perl events, generally promoting Dancer, and of course using Dancer
+to build fun stuff! :)</p>
+<p>So, a big thank you to everyone, and best wishes from the Dancer team for a very
+merry Christmas and a happy and prosperous New Year!</p>
+<h2><a name="2010_s_contributors_according_to_github"></a>2010's contributors according to GitHub</h2>
+
+<p>In no particular order, thanks go to:</p>
+<ul>
+<li><a name="item_Alexis_Sukrieh"></a><b>Alexis Sukrieh</b>
+<ul>
+<li><a name="item_Cleanup_session_tests_folder"></a><b>Cleanup session tests folder</b>
+</li>
+<li><a name="item_Cleanup_on_Dancer__FileUtils"></a><b>Cleanup on Dancer::FileUtils</b>
+</li>
+<li><a name="item_Documenting_the_plack_middlewares_map"></a><b>Documenting the plack_middlewares_map</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Sawyer_X"></a><b>Sawyer X</b>
+<ul>
+<li><a name="item_GH__391__Dancer__Logger__Note_now_exists_"></a><b>GH #391: Dancer::Logger::Note now exists.</b>
+</li>
+<li><a name="item_Porting_documentation_on_WRAPPER_to_Dancer__Template__TemplateToolkit_"></a><b>Porting documentation on WRAPPER to Dancer::Template::TemplateToolkit.</b>
+</li>
+<li><a name="item_GH__297__All_logging_options_can_automatically_serialize_references_"></a><b>GH #297: All logging options can automatically serialize references.</b>
+</li>
+<li><a name="item_GH_303__Generated_Makefile_PL_s_clean_is_done_correctly_now_"></a><b>GH#303: Generated Makefile.PL's clean is done correctly now.</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Alberto_Sim&#xf5;es"></a><b>Alberto Sim&#xf5;es</b>
+<ul>
+<li><a name="item_Detected_errors_in_scaffolded_dispatchers"></a><b>Detected errors in scaffolded dispatchers</b>
+</li>
+<li><a name="item_Support_XML__Simple_configuration_for_serializing_deserializing"></a><b>Support XML::Simple configuration for serializing/deserializing</b>
+</li>
+<li><a name="item_Remove_hard_coded_version_from_404_html_and_500_html"></a><b>Remove hard-coded version from 404.html and 500.html</b>
+</li>
+<li><a name="item_Fix_a_bunch_of_cpan_testers_reports"></a><b>Fix a bunch of cpan testers reports</b>
+</li>
+</ul>
+</li>
+<li><a name="item_David_Precious"></a><b>David Precious</b>
+<ul>
+<li><a name="item_Make_template_work_outside_of_requests__Issue_592_"></a><b>Make template work outside of requests (Issue 592)</b>
+</li>
+<li><a name="item_Major_rewrite_reorganization_on_Dancer__Config_documentation"></a><b>Major rewrite/reorganization on Dancer::Config documentation</b>
+</li>
+<li><a name="item_Added_Dancer__Cookbook_to_provide_lots_of_concrete_examples_for_newcomers_"></a><b>Added Dancer::Cookbook to provide lots of concrete examples for
+newcomers.</b>
+</li>
+<li><a name="item_Added_session_backend_Dancer__Session__Simple"></a><b>Added session backend Dancer::Session::Simple</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Damien_Krotkine"></a><b>Damien Krotkine</b>
+<ul>
+<li><a name="item_Created_continuations_style_exception_system_"></a><b>Created continuations-style exception system!</b>
+</li>
+<li><a name="item_Implement_session_directory_testing_cache_for_Session__YAML"></a><b>Implement session directory testing cache for Session::YAML</b>
+</li>
+<li><a name="item_Improve_Serializers_documentation"></a><b>Improve Serializers documentation</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Michael_G__Schwern"></a><b>Michael G. Schwern</b>
+<ul>
+<li><a name="item_Improve_Dancer__Test_so_failures_report_the_correct_line_numbers_"></a><b>Improve Dancer::Test so failures report the correct line numbers.</b>
+</li>
+<li><a name="item_Tested_that_Dancer__Session__Cookie_isn_t_broken"></a><b>Tested that Dancer::Session::Cookie isn't broken</b>
+</li>
+<li><a name="item_Fixed_the_plack_middlewares_example_in_the_cookbook"></a><b>Fixed the plack_middlewares example in the cookbook</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Philippe_Bruhat__BooK_"></a><b>Philippe Bruhat (BooK)</b>
+<ul>
+<li><a name="item_Added_script_wallflower__helper_to_turn_a_Dancer_application_into_a_static_web_site_"></a><b>Added script/wallflower, helper to turn a Dancer application into a static
+web site.</b>
+</li>
+<li><a name="item_better_behaviour_for_plugin_setting__better_search__more_user_friendly_"></a><b>better behaviour for plugin_setting (better search, more user-friendly)</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Naveed_Massjouni"></a><b>Naveed Massjouni</b>
+<ul>
+<li><a name="item_default_layout_uses__lt___request_base___gt__in_order_to_support_mounted_apps"></a><b>default layout uses &lt;% request.base %&gt; in order to support mounted apps</b>
+</li>
+<li><a name="item_FIX_for_issues__111_and__108"></a><b>FIX for issues #111 and #108</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Maurice"></a><b>Maurice</b>
+<ul>
+<li><a name="item_Provided_documentation_for_Dancing_on_command_line_"></a><b>Provided documentation for Dancing on command line.</b>
+</li>
+<li><a name="item_Improve_Dancer__Cookbook_"></a><b>Improve Dancer::Cookbook.</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Roman_Galeev"></a><b>Roman Galeev</b>
+<ul>
+<li><a name="item_YAML_Session_UTF_8_Fix"></a><b>YAML Session UTF-8 Fix</b>
+</li>
+<li><a name="item_Introduce_new_timestamp_format_in_logger___T_"></a><b>Introduce new timestamp format in logger (%T)</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Stefan_Hornburg__Racke_"></a><b>Stefan Hornburg (Racke)</b>
+<ul>
+<li><a name="item_POD_fix_"></a><b>POD fix.</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Yanick_Champoux"></a><b>Yanick Champoux</b>
+<ul>
+<li><a name="item_Changed_Dancer__Test_tests_to_assume__GET__if_their_first_argument_is_scalar_"></a><b>Changed Dancer::Test tests to assume 'GET' if their first argument is scalar.</b>
+</li>
+<li><a name="item_Recognize_absolute_redirects"></a><b>Recognize absolute redirects</b>
+</li>
+<li><a name="item_Fix_before_serializer_POD_fix"></a><b>Fix before_serializer POD fix</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Anirvan_Chatterjee"></a><b>Anirvan Chatterjee</b>
+<ul>
+<li><a name="item_Provided_various_documentation_typo_fixes"></a><b>Provided various documentation typo fixes</b>
+</li>
+</ul>
+</li>
+<li><a name="item_James_Aitken"></a><b>James Aitken</b>
+<ul>
+<li><a name="item_Fixed_issues_GH__84__86_and__87"></a><b>Fixed issues GH #84 #86 and #87</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Rowan_Thorpe"></a><b>Rowan Thorpe</b>
+<ul>
+<li><a name="item_Fixed_anti_UNC_substitution_under_Cygwin"></a><b>Fixed anti UNC substitution under Cygwin</b>
+</li>
+<li><a name="item_GH_220__fix_for_path_issues_under_MacOS_X_and_Windows_platforms_"></a><b>GH#220: fix for path issues under MacOS X and Windows platforms.</b>
+</li>
+<li><a name="item_Better_detection_of_the_application_layout_under_non_UNIX_platforms_"></a><b>Better detection of the application layout under non-UNIX platforms.</b>
+</li>
+<li><a name="item_Set_binmode_in_write_data_to_file___to_fix_image_corruption_in_______Windows"></a><b>Set binmode in write_data_to_file() to fix image corruption in
+      Windows</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Geistteufel"></a><b>Geistteufel</b>
+<ul>
+<li><a name="item_Fixed_cookies_disappearing_when_more_than_one_is_set________Complete_refactoring_of_the_cookie_handling_"></a><b>Fixed cookies disappearing when more than one is set.
+      Complete refactoring of the cookie handling.</b>
+</li>
+<li><a name="item_Documented_a_complete_working_example_of_deployment_under_Nginx_Starman_in_______Deployment_pod"></a><b>Documented a complete working example of deployment under Nginx/Starman in
+      Deployment.pod</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Paul_Driver"></a><b>Paul Driver</b>
+<ul>
+<li><a name="item_Provided_support_for_virtual_location_"></a><b>Provided support for virtual location.</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Gabor_Szabo"></a><b>Gabor Szabo</b>
+<ul>
+<li><a name="item_Eliminated_test_warnings_on_Windows_"></a><b>Eliminated test warnings on Windows.</b>
+</li>
+<li><a name="item_Adding_test_for_multi_leveled_scaffolding_"></a><b>Adding test for multi-leveled scaffolding.</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Alex_Kalderimis"></a><b>Alex Kalderimis</b>
+<ul>
+<li><a name="item_Documentation_and_tests_on_how_to_use_many_Dancer_application_______inside_one_PSGI_file__PR_564_"></a><b>Documentation and tests on how to use many Dancer application
+      inside one PSGI file (PR 564)</b>
+</li>
+<li><a name="item_Documentation_and_tests_on_how_to_use_many_Dancer_application_______inside_one_PSGI_file__PR_564_"></a><b>Documentation and tests on how to use many Dancer application
+      inside one PSGI file (PR 564)</b>
+</li>
+</ul>
+</li>
+<li><a name="item_felixdo"></a><b>felixdo</b>
+<ul>
+<li><a name="item_Fixed_a_bug_that_made_system___fail_with__1_under_Dancer"></a><b>Fixed a bug that made system() fail with -1 under Dancer</b>
+</li>
+</ul>
+</li>
+<li><a name="item_chromatic"></a><b>chromatic</b>
+<ul>
+<li><a name="item_Cleaned_up_PSGI_handler_code"></a><b>Cleaned up PSGI handler code</b>
+</li>
+<li><a name="item_Improved_warning_localizations"></a><b>Improved warning localizations</b>
+</li>
+</ul>
+</li>
+<li><a name="item_minty"></a><b>minty</b>
+<ul>
+<li><a name="item_Bump_HTTP__Body_dependency_to_1_07"></a><b>Bump HTTP::Body dependency to 1.07</b>
+</li>
+<li><a name="item_Updated_Introduction_pod_with_a_dancer_opt"></a><b>Updated Introduction pod with a dancer opt</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Squeeks"></a><b>Squeeks</b>
+<ul>
+<li><a name="item_The_ability_for_dancer_response_to_send_file_contents_for_file_uploads_______as_a_scalar__instead_of_reading_from_file_on_disk"></a><b>The ability for dancer_response to send file contents for file uploads
+      as a scalar, instead of reading from file on disk</b>
+</li>
+<li><a name="item_Providing_a_report_about_Query_string_params"></a><b>Providing a report about Query string params</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Mark_Stosberg"></a><b>Mark Stosberg</b>
+<ul>
+<li><a name="item_Provided_a_report_on_CRLF_injection_in_response_headers"></a><b>Provided a report on CRLF injection in response headers</b>
+</li>
+<li><a name="item_Provided_a_report_on_multi_valued_params_in_GET_POST_data"></a><b>Provided a report on multi-valued params in GET/POST data</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Nate_Jones"></a><b>Nate Jones</b>
+<ul>
+<li><a name="item_More_HTTP_codes_supported_for_a_better_REST_compat"></a><b>More HTTP codes supported for a better REST compat</b>
+</li>
+<li><a name="item_Thing_2"></a><b>Thing 2</b>
+</li>
+</ul>
+</li>
+<li><a name="item_niko"></a><b>niko</b>
+<ul>
+<li><a name="item_Cookie_accessor_to_manipulate_cookies_directly_"></a><b>Cookie accessor to manipulate cookies directly.</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Pedro_Melo"></a><b>Pedro Melo</b>
+<ul>
+<li><a name="item_Tweak_tests_regular_expression_to_be_more_flexible"></a><b>Tweak tests regular expression to be more flexible</b>
+</li>
+<li><a name="item_Fix_hooks_implementation_that_failed_when_user_messes___"></a><b>Fix hooks implementation that failed when user messes $_</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Ask_Bj&#xf8;rn_Hansen"></a><b>Ask Bj&#xf8;rn Hansen</b>
+<ul>
+<li><a name="item_In_development__pretty_print_JSON_serializations_for_easier_development"></a><b>In development, pretty-print JSON serializations for easier development</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Sebastian_de_Castelberg"></a><b>Sebastian de Castelberg</b>
+<ul>
+<li><a name="item_Allowed_the_dancer_helper_to_download_files_via_a_transparent_proxy"></a><b>Allowed the dancer helper to download files via a transparent proxy</b>
+</li>
+<li><a name="item_Support_for_path_info___in_Dancer__Request_so_it_s_possible_to_mount_an_application_under_a_directory_"></a><b>Support for path_info() in Dancer::Request so it's possible to
+mount an application under a directory.</b>
+</li>
+<li><a name="item_Fixed_priority_in_D__S__Mutable_"></a><b>Fixed priority in D::S::Mutable.</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Alessandro_Ranellucci"></a><b>Alessandro Ranellucci</b>
+<ul>
+<li><a name="item_Fix_prefix_behavior_with_load_app"></a><b>Fix prefix behavior with load_app</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Emmanuel_Rodriguez"></a><b>Emmanuel Rodriguez</b>
+<ul>
+<li><a name="item_Support_for__content_type__option_on_send_file_when_sending_a_______system_wide_file"></a><b>Support for 'content_type' option on send_file when sending a
+      system wide file</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Adam_J__Foxson"></a><b>Adam J. Foxson</b>
+<ul>
+<li><a name="item_FIX_for_issue_GH_136___readline___on_closed_filehandle_DATA__error_that_appears_when_running_the_app_with_Starman"></a><b>FIX for issue GH#136:
+"readline() on closed filehandle DATA" error that appears when running
+the app with Starman</b>
+</li>
+<li><a name="item_Addresses_issue__136___readline___on_closed_filehandle_DATA_"></a><b>Addresses issue #136: "readline() on closed filehandle DATA"</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Mark_Allen"></a><b>Mark Allen</b>
+<ul>
+<li><a name="item_Added_a_tutorial__Dancer__Tutorial_"></a><b>Added a tutorial (Dancer::Tutorial)</b>
+</li>
+<li><a name="item_Provided_an_example_application__Dancr___provided_in_example_"></a><b>Provided an example application 'Dancr', provided in example/</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Joshua_Barratt"></a><b>Joshua Barratt</b>
+<ul>
+<li><a name="item_Dancer__Serializer__JSON_supports__allow_blessed__and__convert_blessed__options_"></a><b>Dancer::Serializer::JSON supports 'allow_blessed' and 'convert_blessed'
+options.</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Ivan_Paponov"></a><b>Ivan Paponov</b>
+<ul>
+<li><a name="item_Support_HTTP_X_FORWARDED_HOST_in_behing_proxy"></a><b>Support HTTP_X_FORWARDED_HOST in behing proxy</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Juan_J__Mart&#xed;nez"></a><b>Juan J. Mart&#xed;nez</b>
+<ul>
+<li><a name="item_Provided_a_report_about_a_bug_which_returned_a_voice_context_after_redirecting_a_route_"></a><b>Provided a report about a bug which returned a voice context after redirecting a route.</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Hagen_Fuchs"></a><b>Hagen Fuchs</b>
+<ul>
+<li><a name="item_Request_pm_Decode_HTTP__Request_s_uploads"></a><b>Request.pm Decode HTTP::Request's uploads</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Fran&#xe7;ois_Charlier"></a><b>Fran&#xe7;ois Charlier</b>
+<ul>
+<li><a name="item_Provided_a_fix_for_GH_76_and_GH_88"></a><b>Provided a fix for GH#76 and GH#88</b>
+</li>
+</ul>
+</li>
+<li><a name="item_JT_Smith"></a><b>JT Smith</b>
+<ul>
+<li><a name="item_Error_Hook__PR_563_"></a><b>Error Hook (PR 563)</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Olof_Johansson"></a><b>Olof Johansson</b>
+<ul>
+<li><a name="item_Fixed_Dancer__Plugins_typos_in_the_documentation"></a><b>Fixed Dancer::Plugins typos in the documentation</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Al_Newkirk"></a><b>Al Newkirk</b>
+<ul>
+<li><a name="item_fixed_redirect_to_redirect_immediately"></a><b>fixed redirect to redirect immediately</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Ivan_Bessarabov"></a><b>Ivan Bessarabov</b>
+<ul>
+<li><a name="item_Worked_on_fixing_TT_example_config_"></a><b>Worked on fixing TT example config.</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Sam_Kington"></a><b>Sam Kington</b>
+<ul>
+<li><a name="item_Deserialize_PATCH_requests"></a><b>Deserialize PATCH requests</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Dave_Doyle"></a><b>Dave Doyle</b>
+<ul>
+<li><a name="item_Working_on_clarifying_Pod_as_to_how_before_template_works"></a><b>Working on clarifying Pod as to how before_template works</b>
+</li>
+</ul>
+</li>
+<li><a name="item_Flavio_Poletti"></a><b>Flavio Poletti</b>
+<ul>
+<li><a name="item_Added__git_fetch_upstream__for_remote_tracking"></a><b>Added "git fetch upstream" for remote tracking</b>
+</li>
+<li><a name="item_Turned_a_tab_into_the_right_number_of_spaces"></a><b>Turned a tab into the right number of spaces</b>
+</li>
+</ul>
+</li>
+</ul>
+<h1><a name="author"></a>AUTHOR</h1>
+
+<p>Kindly authored by Viktor C, a student partaking in the Google Code-In, mentored
+by David Precious - thanks Viktor for your contribution too!</p>
+<h1><a name="merry_christmas_"></a>MERRY CHRISTMAS!</h1>
+
+<p>That's it for this year's Dancer Advent Calendar - we hope it's been an
+enjoyable read for you, and thank you for your interest in the project.  From
+all of the core development team, we wish you a happy Christmas (or happy
+holidays, if you don't observe Christmas) and a happy and prosperous New Year!</p>
+<p>We're all off to raise a glass of our favourite tipple to the success of the
+project, and warmly invite you to join us :)</p>
+</div>
+
+ <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'danceradvent'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+</div>
+
+
+
+<div id="footer">
+Powered by the  
+<a href="http://perldancer.org/" title="Perl Dancer - Perl web framework">
+Dancer Perl web framework</a>
+</div>
+</div>
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-25174467-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

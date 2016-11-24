@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<title> Dancer plugins ecosystem | PerlDancer Advent Calendar</title>
+<link rel="stylesheet" href="/css/style.css" />
+<link rel="alternate" type="application/rss+xml" title="All Articles " href="/feed/2011" /> 
+
+
+<!-- Grab Google CDN's jQuery. fall back to local if necessary -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">/* <![CDATA[ */
+    !window.jQuery && document.write('<script src="/javascripts/jquery.js"><\/script>')
+/* ]]> */</script>
+
+<!-- Prettyfy -->
+<link href="/css/prettify.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/javascripts/prettify.js"></script>
+
+</head>
+<body onload="prettyPrint()">
+<div id="page">
+
+<div id="sidebar">
+<a href="/" class="homelink">Dancer Advent Calendar</a><br />
+
+<p>
+The PerlDancer Advent Calendar is a community-driven project that aims 
+to showcase the Dancer Perl web framework.
+</p>
+
+<p>
+Each day of December until Christmas, one article about Dancer. Stay tuned for new moves!
+</p>
+
+<ul id="sidebar-items">
+<li>
+    <h3>About Dancer</h3>
+    <ul class="links">
+        <li><a href="http://www.perldancer.org/">Dancer homepage</a></li>
+        <li><a href="http://twitter.com/PerlDancer">Official Twitter</a></li>
+        <li><a href="http://github.com/PerlDancer/Dancer">Dancer on GitHub</a></li>
+        <li><a href="http://github.com/PerlDancer/Dancer2">Dancer 2 on GitHub</a></li>
+        <li><a class="feed" href="/feed/2011">RSS</a></li>
+    </ul>
+</li>
+</ul>
+</div>
+
+
+<div id="content">
+<div class="pod-document"><h1><a name="dancer_plugins_ecosystem"></a>Dancer plugins ecosystem</h1>
+
+<p>Dancer has been designed to provide the built-in features you need, but to
+remain slim and not force your choice of technologies, so plugins and engines
+are an important feature for easy extensibility.</p>
+<p>It's easy to write plugins to extend Dancer's DSL and provide various useful
+extra features.  Today, here is a write-up of a small selection of the wide 
+variety of plugins available.</p>
+<ul>
+<li><a name="item__a_href__https___metacpan_org_module_Dancer__Plugin__Database__Dancer__Plugin__Database__a_"></a><b><a href="https://metacpan.org/module/Dancer::Plugin::Database">Dancer::Plugin::Database</a></b>
+<p><a href="http://advent.perldancer.org/2011/5">Covered in more detail</a> already, but
+Dancer::Plugin::Database provides easy to use and easy to configure <a href="https://metacpan.org/module/DBI">DBI</a> 
+database connection management along with a handful of convenience methods.</p>
+<p>It has been designed to make the common stuff as easy as possible.</p>
+<p>A quick example - fetching details of a user and passing them to a template to
+render a page with details on that user:</p>
+<pre class="prettyprint">get '/user/:id' =&gt; sub {
+    my $user = database-&gt;quick_select('users', { id =&gt; params-&gt;{id} });
+    return template 'user', $user;
+};</pre>
+
+<p>Calling the <code>database</code> keyword gets you a database handle (which is actually a
+subclassed <code>DBI::db</code> object, which acts just as a normal DBI database handle
+but adds a few convenience methods such as <code>quick_select</code>.</p>
+</li>
+<li><a name="item__a_href__https___metacpan_org_module_Dancer__Plugin__DBIC__Dancer__Plugin__DBIC__a_"></a><b><a href="https://metacpan.org/module/Dancer::Plugin::DBIC">Dancer::Plugin::DBIC</a></b>
+<p>If you plan to use <a href="https://metacpan.org/module/DBIx::Class">DBIx::Class</a> to access your database in an ORM-ish style,
+then this plugin provides a <code>schema</code> keyword which lets you do things like:</p>
+<pre class="prettyprint">my @authors = schema-&gt;resultset('Author')-&gt;search({
+    -or =&gt; [
+        firstname =&gt; { like =&gt; "%$query%" },
+        lastname  =&gt; { like =&gt; "%$query%" },
+    ]
+});</pre>
+
+<p>When configuring the plugin, you can allow DBIC to auto-discover the schema for
+ultimate ease of use, or you can point it at your own schema classes.</p>
+<p><a href="http://advent.perldancer.org/2010/11">Covered in more detail</a> in last year's
+Dancer advent calendar.</p>
+</li>
+<li><a name="item__a_href__https___metacpan_org_module_Dancer__Plugin__Redis__Dancer__Plugin__Redis__a_"></a><b><a href="https://metacpan.org/module/Dancer::Plugin::Redis">Dancer::Plugin::Redis</a></b>
+<p>Provides an easy way to obtain a connected Redis database handle by simply
+calling the redis keyword within your Dancer application.</p>
+<pre class="prettyprint">get '/widget/view/:id' =&gt; sub {
+    template 'display_widget', { widget =&gt; redis-&gt;get('hash_key'); };
+};</pre>
+
+</li>
+<li><a name="item__a_href__https___metacpan_org_module_Dancer__Plugin__Mongo__Dancer__Plugin__Mongo__a_"></a><b><a href="https://metacpan.org/module/Dancer::Plugin::Mongo">Dancer::Plugin::Mongo</a></b>
+<p>Provides a wrapper around <a href="https://metacpan.org/module/MongoDB">MongoDB</a>. Add the appropriate configuraton options 
+to your config.yml and then you can access a MongoDB database using the 'mongo'
+keyword:</p>
+<pre class="prettyprint">get '/widget/view/:id' =&gt; sub {
+    my $widget = mongo-&gt;database-&gt;collection-&gt;find_one({ id =&gt; params-&gt;{id} });
+};</pre>
+
+</li>
+<li><a name="item__a_href__https___metacpan_org_module_Dancer__Plugin__Email__Dancer__Plugin__Email__a_"></a><b><a href="https://metacpan.org/module/Dancer::Plugin::Email">Dancer::Plugin::Email</a></b>
+<p>Provides simple email sending for your Dancer applications, powered by
+<a href="https://metacpan.org/module/Email::Send">Email::Send</a> via an <code>email</code> keyword:</p>
+<pre class="prettyprint">post '/contact' =&gt; sub {
+    email {
+        to =&gt; '...',
+        subject =&gt; '...',
+        message =&gt; $msg,
+        attach =&gt; [ '/path/to/file' ]
+    };
+};</pre>
+
+<p><a href="http://advent.perldancer.org/2011/15">Covered in more detail</a> previously in
+this year's calendar.</p>
+</li>
+<li><a name="item__a_href__https___metacpan_org_module_Dancer__Plugin__SMS__Dancer__Plugin__SMS__a_"></a><b><a href="https://metacpan.org/module/Dancer::Plugin::SMS">Dancer::Plugin::SMS</a></b>
+<p>Provides simple SMS text messaging sending, powered by <a href="https://metacpan.org/module/SMS::Send">SMS::Send</a>:</p>
+<pre class="prettyprint">post '/sendsms' =&gt; sub {
+    sms to =&gt; '++447......', text =&gt; '......';
+};</pre>
+
+</li>
+<li><a name="item__a_href__https___metacpan_org_module_Dancer__Plugin__EscapeHTML__Dancer__Plugin__EscapeHTML__a_"></a><b><a href="https://metacpan.org/module/Dancer::Plugin::EscapeHTML">Dancer::Plugin::EscapeHTML</a></b>
+<p>Makes it easy to escape HTML to help mitigate against
+<a href="http://en.wikipedia.org/wiki/Cross-site_scripting">XSS</a> vulnerabilities.</p>
+<pre class="prettyprint">my $encoded = escape_html($some_html);</pre>
+
+<p>In many cases, you'll be passing data to your templates to render, but will
+never be intentionally passing HTML, only data.  In that case, you can arrange
+for all template params to be escaped before the template receives them by
+adding the following to config.yml:</p>
+<pre class="prettyprint">plugins:
+    EscapeHTML:
+        automatic_escaping: 1
+        exclude_pattern: '_html$'</pre>
+
+<p>The <code>exclude_pattern</code> illustrated means that any template param with a name
+ending in <code>_html</code> will be left untouched.</p>
+</li>
+<li><a name="item__a_href__https___metacpan_org_module_Dancer__Plugin__SimpleCRUD__Dancer__Plugin__SimpleCRUD__a_"></a><b><a href="https://metacpan.org/module/Dancer::Plugin::SimpleCRUD">Dancer::Plugin::SimpleCRUD</a></b>
+<p>Provides simple <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>
+support for database tables, with automatic record display, searching, creating,
+editing, deletion, exporting, etc.</p>
+<p><a href="http://advent.perldancer.org/2011/2">Covered in more detail</a> previously in this
+year's calendar.</p>
+</li>
+<li><a name="item__a_href__https___metacpan_org_module_Dancer__Plugin__Ajax__Dancer__Plugin__Ajax__a_"></a><b><a href="https://metacpan.org/module/Dancer::Plugin::Ajax">Dancer::Plugin::Ajax</a></b>
+<p>Provides an <code>ajax</code> keyword to match only requests submitted via AJAX:</p>
+<pre class="prettyprint">ajax '/check_for_update' =&gt; sub {
+    # ... some Ajax code
+};</pre>
+
+</li>
+<li><a name="item__a_href__https___metacpan_org_module_Dancer__Plugin__Passphrase__Dancer__Plugin__Passphrase__a_"></a><b><a href="https://metacpan.org/module/Dancer::Plugin::Passphrase">Dancer::Plugin::Passphrase</a></b>
+<p>Makes it easy to securely handle passwords in your Dancer apps, storing and
+using secure salted hashed passwords with minimal effort.</p>
+</li>
+<li><a name="item__a_href__https___metacpan_org_module_Dancer__Plugin__Cache__CHI__Dancer__Plugin__Cache__CHI__a_"></a><b><a href="https://metacpan.org/module/Dancer::Plugin::Cache::CHI">Dancer::Plugin::Cache::CHI</a></b>
+<p>Provides easy caching using the <a href="https://metacpan.org/module/CHI">CHI</a> module, which supports a wide variety of
+caching backends including <code>memcached</code> and various others.  Can cache arbitrary
+bits of information or entire page responses.</p>
+</li>
+<li><a name="item__a_href__https___metacpan_org_module_Dancer__Plugin__Thumbnail__Dancer__Plugin__Thumbnail__a_"></a><b><a href="https://metacpan.org/module/Dancer::Plugin::Thumbnail">Dancer::Plugin::Thumbnail</a></b>
+<p>Provides easy image thumbnail generation using <a href="https://metacpan.org/module/GD">GD</a>.</p>
+</li>
+<li><a name="item__a_href__https___metacpan_org_module_Dancer__Plugin__Facebook__Dancer__Plugin__Facebook__a_"></a><b><a href="https://metacpan.org/module/Dancer::Plugin::Facebook">Dancer::Plugin::Facebook</a></b>
+<p>Makes it easy to interact with Facebook via <a href="https://metacpan.org/module/Facebook::Graph">Facebook::Graph</a> from your Dancer
+applications.</p>
+</li>
+<li><a name="item__a_href__https___metacpan_org_module_Dancer__Plugin__Stomp__Dancer__Plugin__Stomp__a_"></a><b><a href="https://metacpan.org/module/Dancer::Plugin::Stomp">Dancer::Plugin::Stomp</a></b>
+<p>Makes it as easy as possible to interact with a Stomp message broker. 
+It provides one new keyword, <code>stomp</code>, which returns a <a href="https://metacpan.org/module/Net::Stomp">Net::Stomp</a> object.</p>
+<pre class="prettyprint">post '/messages' =&gt; sub {
+    stomp-&gt;send({ destination =&gt; '/queue/foo', body =&gt; request-&gt;body });
+};</pre>
+
+</li>
+</ul>
+<p>The above is just a small sample - there's plenty more on CPAN.</p>
+<p>Just <a href="https://metacpan.org/search?q=Dancer%3A%3APlugin%3A%3A">search for Dancer::Plugin::</a></p>
+<p>Why not help people find useful plugins by finding the plugins you use on
+<a href="http://metacpan.org/">MetaCPAN</a> and clicking the <code>++</code> button?</p>
+<h1><a name="author"></a>AUTHOR</h1>
+
+<p>David Precious</p>
+</div>
+
+ <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'danceradvent'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+</div>
+
+
+
+<div id="footer">
+Powered by the  
+<a href="http://perldancer.org/" title="Perl Dancer - Perl web framework">
+Dancer Perl web framework</a>
+</div>
+</div>
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-25174467-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

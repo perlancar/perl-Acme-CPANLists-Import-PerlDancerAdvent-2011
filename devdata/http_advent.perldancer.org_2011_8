@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<title> Dancer 2, or Why I Rewrote Everything | PerlDancer Advent Calendar</title>
+<link rel="stylesheet" href="/css/style.css" />
+<link rel="alternate" type="application/rss+xml" title="All Articles " href="/feed/2011" /> 
+
+
+<!-- Grab Google CDN's jQuery. fall back to local if necessary -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">/* <![CDATA[ */
+    !window.jQuery && document.write('<script src="/javascripts/jquery.js"><\/script>')
+/* ]]> */</script>
+
+<!-- Prettyfy -->
+<link href="/css/prettify.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/javascripts/prettify.js"></script>
+
+</head>
+<body onload="prettyPrint()">
+<div id="page">
+
+<div id="sidebar">
+<a href="/" class="homelink">Dancer Advent Calendar</a><br />
+
+<p>
+The PerlDancer Advent Calendar is a community-driven project that aims 
+to showcase the Dancer Perl web framework.
+</p>
+
+<p>
+Each day of December until Christmas, one article about Dancer. Stay tuned for new moves!
+</p>
+
+<ul id="sidebar-items">
+<li>
+    <h3>About Dancer</h3>
+    <ul class="links">
+        <li><a href="http://www.perldancer.org/">Dancer homepage</a></li>
+        <li><a href="http://twitter.com/PerlDancer">Official Twitter</a></li>
+        <li><a href="http://github.com/PerlDancer/Dancer">Dancer on GitHub</a></li>
+        <li><a href="http://github.com/PerlDancer/Dancer2">Dancer 2 on GitHub</a></li>
+        <li><a class="feed" href="/feed/2011">RSS</a></li>
+    </ul>
+</li>
+</ul>
+</div>
+
+
+<div id="content">
+<div class="pod-document"><h1><a name="dancer_2__or_why_i_rewrote_everything"></a>Dancer 2, or Why I Rewrote Everything</h1>
+
+<p>If you've been following developments in the Perl Dancer ecosystem
+recently, you might be aware that a complete rewrite of the core is on the way.</p>
+<p>I haven't advertised what I did, what happened and what is the plan, so this
+Advent calendar is a perfect opportunity to do it.</p>
+<p>In this article, I'll explain the reasons behind this decision and what were
+the most important targets of this rewrite.</p>
+<p>Firstly, though, it should be made clear that there's no need to panic - Dancer
+2 will strive for backwards compatibility, providing the same user-friendly DSL
+as Dancer, so your existing Dancer apps should work with Dancer 2 with only 
+minimal changes.</p>
+<h2><a name="a_bit_of_history"></a>A bit of history</h2>
+
+<p>Maybe I should start with how the development of Dancer started in the first
+place. It was in summer 2009, I was working at Yoolink at that time and we were
+making a lot of use of the Ruby language.</p>
+<p>I discovered the <a href="http://sinatrarb.com/">Sinatra</a> micro-framework at that time 
+and found it really exciting. After a quick glance, it appeared that there was 
+nothing similar in the Perl ecosystem at that time, so I decided it would be 
+an interesting challenge to port it to Perl.</p>
+<p>Thus, the first Dancer prototype was born.</p>
+<p>The prototype evolved quickly and after a couple of months, the project was up
+available on CPAN and the source code hosted was pushed on GitHub.</p>
+<p>A community of motivated users emerged and after a year, Dancer was well-known
+and had quite a good reputation of being very easy to use and making web
+development fun with Perl.</p>
+<p>Needless to say that when you are powered by your community's energy, it's
+very hard to stop the flow for changing major design decisions.</p>
+<p>When I look back at what happened exactly, I'd say that Dancer was a very
+well-received and successful <i>prototype</i> of the easiest web DSL we could do
+with Perl.</p>
+<p>From that perspective, I'm very proud of Dancer, because from an end-user point
+of view, it's really kicking asses: it is intuitive as hell, it stays out of
+the way and gives you all the freedom to think of the one thing which matters
+most: your application.</p>
+<p>But, you know the drill, perfect software does not exist, there is always
+something we can do better. In the case of Dancer, there were a couple of 
+design decisions which needed to be taken care of.</p>
+<p>Actually, when I took the time to think about it, I realized there were two
+major drawbacks in the design that would make it difficult for Dancer to
+continue its epic growth:</p>
+<ul>
+<li><a name="item_Globals_and_singletons"></a><b>Globals and singletons</b>
+<p>The major source of issues with edge-cases, scalability and maintenance in
+Dancer is the use of globals. Many developers who happened to hack around the
+core know that.</p>
+<p>I wanted Dancer to get rid of that design flaw.</p>
+</li>
+<li><a name="item_Consistent_and_object_oriented_core_API"></a><b>Consistent and object-oriented core API</b>
+<p>As Dancer has been built iteratively, the Core API was never a real target for
+me, that means hacking around the core is quite difficult, and not consistent.
+I wanted Dancer to be a clean DSL over a complete object-oriented API.</p>
+</li>
+</ul>
+<p>As a side-effect of these tow main decisions, I also wanted the core to follow
+the <a href="http://en.wikipedia.org/wiki/Law_of_Demeter">Law of Demeter</a>, in order to 
+ensure a sane class/method hierarchy.</p>
+<p>I also wanted a strong concept of scope to be implemented in the rewrite, so
+that everything that happens within a caller would be scoped there (no more
+apps collisions, support for multiple engines per app, per-apps settings, etc).</p>
+<h2><a name="dancer2__the_origins"></a>Dancer2, the origins</h2>
+
+<p>All this was in my mind for quite a long time and I was wondering how I could
+do these changes while maintaining Dancer's evolutions.</p>
+<img src="http://farm4.staticflickr.com/3137/3067741605_83b86dda64.jpg" title="Dancer 2 is to Dancer 1 what Wolverine is to a human being: same shape, better skeleton." />
+
+<p>I should also mention that among the contributors of Dancer, there were a
+couple of guys very productive and motivated, and I granted them a commit bit
+quite quickly. Soon enough, we created what we called the <i>Core Team</i>, a group
+of developers who knows Dancer well and who are able to process pull requests.</p>
+<p>Thanks to them (SawyerX, Franck Cuny, David Precious, Damien Krotkine and
+Alberto Sim&#xf5;es) Dancer had a strong team to take care of daily maintenance
+duties. I also made SawyerX a co-maintainer on CPAN so that he could become our
+<i>Release Manager</i>.</p>
+<p>All this setup was perfect for the Dancer 2 project: I had all in place to step
+aside, let the maintenance in the Core Team hands and focus entirely on the
+rewrite.</p>
+<p>Then, I decided to create a new repo and experiment these design ideas on a complete
+new prototype, to see where I could end up. At that time, I went to discuss
+with Matt S Trout (mst) on IRC, in order to brainstorm the new design.
+Matt also happened to become my <i>design architect mentor</i>, giving me ideas,
+tips and suggestions when I faced subtle design issues to solve.</p>
+<p>Matt sounded encouraging and provided lots of useful and enlightened
+suggestions to help me start.</p>
+<p>One of his suggestions was to use Moo to get a complete Moose-ish object system
+for the core yet fast and lightweight.  That happened to be one of the more
+helpful choices to enforce a better design.</p>
+<p>My strategy was to start a new project, with one target in mind: 
+support the DSL of Dancer, but make it a true DSL: a layer over a complete,
+consistent and object-oriented core.</p>
+<p>Mainly the idea was that I could write a Dancer app with raw objects if I
+wanted to. This would open new doors and allow strong flexibility.</p>
+<h2><a name="where_are_we"></a>Where are we?</h2>
+
+<p>I won't give you more details on the Core API in this article, neither will I
+give a roadmap for Dancer 2, because these topics will be covered in other
+articles, but I'll just give you a quick overview of Dancer 2 as of today.</p>
+<p>The repository is public on <a href="http://github.com/PerlDancer/Dancer2">Github</a>, 
+you're very welcome to clone it if you want to test your app with Dancer 2. 
+If you do so, please send me an email with your feedback, that will help a lot!</p>
+<p>Let's give it a try:</p>
+<pre class="prettyprint">$ echo "use Dancer; get '/' =&gt; sub { 2 }; start" &gt; test.pl
+$ perl -Ilib ./test.pl &amp;
+HTTP::Server::Simple::PSGI: You can connect to your server at http://localhost:3000/ 
+$ curl http://0:3000/
+2</pre>
+
+<p>Nothing special here, we have our hello world app powered by Dancer2. If you
+look more precisely, you'll see that nearly all the DSL of Dancer 1 is already
+supported in Dancer 2.</p>
+<p>To get a quick teaser about the internal changes we have, let's enable the core
+debug messages:</p>
+<pre class="prettyprint">$ DANCER_DEBUG_CORE=1 perl -Ilib ./test.pl &amp;
+core: binding app to main
+core: [main] -&gt; get(/, CODE(0x172a1b0))
+core: [main] -&gt; start()
+HTTP::Server::Simple::PSGI: You can connect to your server at http://localhost:3000/
+$</pre>
+
+<p>As you can guess, with 2, for each package that uses Dancer, we have a
+<code>Dancer::Core::App</code> object (here for <i>main</i>). The DSL is just syntactic
+sugar over method calls to that object.</p>
+<p>Well, that's all for this introduction, again, you're welcome to test
+Dancer 2, just clone the repo and run your app with it, just don't forget to
+mail me or the list about how it went, that would be helpful.</p>
+<p>In the next article, I'll go over all the core API design, explaining all the
+entities we have and how it fits with the DSL.</p>
+<h2><a name="author"></a>AUTHOR</h2>
+
+<p>This article was written by Alexis Sukrieh and reviewed by David Precious, for
+the Perl Dancer Advent Calendar 2011.</p>
+</div>
+
+ <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'danceradvent'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+</div>
+
+
+
+<div id="footer">
+Powered by the  
+<a href="http://perldancer.org/" title="Perl Dancer - Perl web framework">
+Dancer Perl web framework</a>
+</div>
+</div>
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-25174467-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

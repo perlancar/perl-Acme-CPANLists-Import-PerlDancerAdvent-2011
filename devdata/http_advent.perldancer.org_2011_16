@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<title> How to use Dancer with Plack middlewares | PerlDancer Advent Calendar</title>
+<link rel="stylesheet" href="/css/style.css" />
+<link rel="alternate" type="application/rss+xml" title="All Articles " href="/feed/2011" /> 
+
+
+<!-- Grab Google CDN's jQuery. fall back to local if necessary -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">/* <![CDATA[ */
+    !window.jQuery && document.write('<script src="/javascripts/jquery.js"><\/script>')
+/* ]]> */</script>
+
+<!-- Prettyfy -->
+<link href="/css/prettify.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/javascripts/prettify.js"></script>
+
+</head>
+<body onload="prettyPrint()">
+<div id="page">
+
+<div id="sidebar">
+<a href="/" class="homelink">Dancer Advent Calendar</a><br />
+
+<p>
+The PerlDancer Advent Calendar is a community-driven project that aims 
+to showcase the Dancer Perl web framework.
+</p>
+
+<p>
+Each day of December until Christmas, one article about Dancer. Stay tuned for new moves!
+</p>
+
+<ul id="sidebar-items">
+<li>
+    <h3>About Dancer</h3>
+    <ul class="links">
+        <li><a href="http://www.perldancer.org/">Dancer homepage</a></li>
+        <li><a href="http://twitter.com/PerlDancer">Official Twitter</a></li>
+        <li><a href="http://github.com/PerlDancer/Dancer">Dancer on GitHub</a></li>
+        <li><a href="http://github.com/PerlDancer/Dancer2">Dancer 2 on GitHub</a></li>
+        <li><a class="feed" href="/feed/2011">RSS</a></li>
+    </ul>
+</li>
+</ul>
+</div>
+
+
+<div id="content">
+<div class="pod-document"><h1><a name="how_to_use_dancer_with_plack_middlewares"></a>How to use Dancer with Plack middlewares</h1>
+
+<p>This article is a repeat from last year's advent calendar due to time 
+constraints - sorry!  It's a valuable read for anyone who hasn't seen it before,
+though; the ability to use Plack middleware is one of the features that makes
+Plack so powerful.</p>
+<p>Plack is an awesome addition to the Perl ecosystem. One of its key features is
+support for middlewares.</p>
+<p>You can see a middleware as a
+<a href="http://search.cpan.org/perldoc?Moose::Role">Role</a>: a reusable component
+shared between your applications. This component will act both as a client and
+as a server.</p>
+<p>This article doesn't aim to present in details how a middleware works. If you're
+not yet familiar with <a href="https://metacpan.org/module/Plack">Plack</a>'s middlewares, you can refer to these articles:</p>
+<ul>
+<li><a name="item__a_href__http___search_cpan_org__miyagawa_Plack_0_9951_lib_Plack_Middleware_pm__http___search_cpan_org__miyagawa_Plack_0_9951_lib_Plack_Middleware_pm__a_"></a><b><a href="http://search.cpan.org/~miyagawa/Plack-0.9951/lib/Plack/Middleware.pm">http://search.cpan.org/~miyagawa/Plack-0.9951/lib/Plack/Middleware.pm</a></b>
+</li>
+<li><a name="item__a_href__http___advent_plackperl_org_2009_12_day_10_using_plack_middleware_html__http___advent_plackperl_org_2009_12_day_10_using_plack_middleware_html__a_"></a><b><a href="http://advent.plackperl.org/2009/12/day-10-using-plack-middleware.html">http://advent.plackperl.org/2009/12/day-10-using-plack-middleware.html</a></b>
+</li>
+</ul>
+<h2><a name="dancer_and_plack"></a>Dancer and Plack</h2>
+
+<p>Let's start by creating a simple Dancer application:</p>
+<pre class="prettyprint">$ dancer -a myapp
++ myapp
++ myapp/bin
++ myapp/bin/app.pl
+...</pre>
+
+<p>Every Dancer application is a valid Plack application. When you're starting
+your project, you can choose between a standalone server, or using Plack:</p>
+<pre class="prettyprint">$ ./bin/app.pl
+&gt;&gt; Dancer server 12481 listening on http://0.0.0.0:3000
+== Entering the development dance floor ...</pre>
+
+<p>Doing this starts my application using Dancer's standalone server on port
+<b>3000</b> (by default; you can use the <code>--port</code> command-line argument to change
+this).</p>
+<p>Now, let's use Plack to start this application:</p>
+<pre class="prettyprint">$ plackup bin/app.pl
+HTTP::Server::PSGI: Accepting connections at http://0:5000/</pre>
+
+<p>This time, it's the PSGI's standalone server that serves our application, and
+it is listening on port <b>5000</b> (this is the default chosen by Plackup; again,
+you can use the <code>--port</code> argument to change this).</p>
+<h2><a name="adding_a_first_middleware"></a>Adding a first Middleware</h2>
+
+<p>For this example, we will add a basic middleware: <a href="https://metacpan.org/module/Plack::Middleware::ETag">Plack::Middleware::ETag</a>.
+This one will append to all our responses a new header: <b>ETag</b>. The ETag is a
+mechanism to control cache validation. Most of the time, the value of the ETag
+is a checksum of the page content returned to the client. The client will
+then store this value, and next time it requests the same page, it will request
+the content only if the checksum has changed.</p>
+<p>In your config.yml, add the following:</p>
+<pre class="prettyprint">plack_middlewares:
+  -
+    - ETag</pre>
+
+<p>Now restart your application (with plackup), and let's do a request:</p>
+<pre class="prettyprint">$ curl -D - http://localhost:5000
+HTTP/1.0 200 OK
+Date: Tue, 09 Nov 2010 15:49:30 GMT
+Server: HTTP::Server::PSGI
+Content-Type: text/html; charset=UTF-8
+X-Powered-By: Perl Dancer 1.1999_02
+ETag: 5f6e450f378e384d4be6e0c081b9dd93026ff146
+Content-Length: 5428</pre>
+
+<p>The ETag header has been added to your response. If you redo the request,
+you'll see that the ETag value is the same.</p>
+<p>Let's add another middleware: <a href="https://metacpan.org/module/Plack::Middleware::ConditionalGet">Plack::Middleware::ConditionalGet</a>. This
+middleware makes sure the application returns content to the client 
+only if the content has been modified since the previous request:</p>
+<pre class="prettyprint">plack_middlewares:
+  - 
+    - ConditionalGET
+  -
+    - ETag</pre>
+
+<p><i>Note that the order is important.</i></p>
+<pre class="prettyprint">$ curl -D - http://localhost:5000 \
+  -H "If-None-Match: 5f6e450f378e384d4be6e0c081b9dd93026ff146"
+HTTP/1.0 304 Not Modified
+Date: Tue, 09 Nov 2010 15:52:01 GMT
+Server: HTTP::Server::PSGI
+X-Powered-By: Perl Dancer 1.1999_02
+ETag: 5f6e450f378e384d4be6e0c081b9dd93026ff146</pre>
+
+<p>This time there is no <b>Content-Length</b> header, because the value of the ETag
+header is the same, so we don't have any content returned for that request.</p>
+<h2><a name="content_compression"></a>Content compression</h2>
+
+<p>Another common use case is the need to send content from the server to the
+client in a compressed format. For this, you can use
+<a href="https://metacpan.org/module/Plack::Middleware::Deflater">Plack::Middleware::Deflater</a> which will compress the content on-the-fly with
+gzip if the client supports this feature.</p>
+<p>A simple:</p>
+<pre class="prettyprint">plack_middlewares:
+  -
+    - Deflater</pre>
+
+<p>will do the trick.</p>
+<h2><a name="using_the_debug_panels"></a>Using the Debug panels</h2>
+
+<p>Some very useful middlewares to use while debugging your application are
+<a href="https://metacpan.org/module/Plack::Middleware::Debug">Plack::Middleware::Debug</a> and <a href="https://metacpan.org/module/Dancer::Debug">Dancer::Debug</a>.</p>
+<p>Those middlewares will inject some HTML code in your page, providing lots of
+useful information about your application, the current request and the response
+returned. 
+To activate their panels, add this to your configuration:</p>
+<pre class="prettyprint">plack_middlewares:
+  -
+    - Debug
+    - panels
+    -
+      - Parameters
+      - Dancer::Version
+      - Dancer::Settings
+      - Memory</pre>
+
+<p>Next time you'll visit your application, you should see this panel on the right:</p>
+<img src="/images/dancer_debug_01.png" />
+
+<p>If you click on one of the element from the menu, the panel will open with something similar:</p>
+<img src="/images/dancer_debug_02.png" />
+
+<h2><a name="more_complex"></a>More complex</h2>
+
+<p>Some middlewares require a more complex configuration, and you won't use
+them as in our previous examples. For this example, we want to add a simple
+authentication system to access our application.</p>
+<p>Edit your <code>bin/app.pl</code> application, and replace the code with this one:</p>
+<pre class="prettyprint">use Dancer;
+use myapp;
+
+use Plack::Builder;
+
+my $app = sub {
+    my $env     = shift;
+    my $request = Dancer::Request-&gt;new($env);
+    Dancer-&gt;dance($request);
+};
+
+builder {
+    enable "Auth::Basic", authenticator =&gt; sub {
+        my ( $username, $password ) = @_;
+        return $username eq 'admin' &amp;&amp; $password eq 's3cr3t';
+    };
+    $app;
+};</pre>
+
+<p>First, we create a PSGI application (line 5). This application processes the
+request and returns a PSGI-compatible result. Next, we use the <b>builder</b>
+keyword, provided by <a href="https://metacpan.org/module/Plack::Builder">Plack::Builder</a>. Here we enable a middleware
+(<b>Auth::Basic</b>), and we create a code ref for the authentication method.</p>
+<p>If you start your application with plackup, and load the page in your browser,
+you will be prompted for a username and a password to access the page.</p>
+<h2><a name="credits"></a>Credits</h2>
+
+<p>A huge thanks to Marcel Gr&#xfc;nauer and Tatsuhiko Miyagawa for the awesome
+<a href="https://metacpan.org/module/Plack::Middleware::Debug">Plack::Middleware::Debug</a>.</p>
+<h2><a name="author"></a>Author</h2>
+
+<p>This article has been written by franck cuny <code>&lt;franck@lumberjaph.net&gt;</code>
+for the Perl Dancer Advent Calendar 2010.</p>
+<h2><a name="copyright"></a>Copyright</h2>
+
+<p>Copyright (C) 2010 by franck cuny</p>
+</div>
+
+ <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'danceradvent'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+</div>
+
+
+
+<div id="footer">
+Powered by the  
+<a href="http://perldancer.org/" title="Perl Dancer - Perl web framework">
+Dancer Perl web framework</a>
+</div>
+</div>
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-25174467-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>
